@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Train App</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Bootstrap CDN-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  
+</head>
+
+
+<body>
+        <div class="card">
+                <div class="card-body">
+                    <div class="card-header">
+                        Current Train Schedule
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Train Name</th>
+                                <th scope="col">Destination</th>
+                                <th scope="col">Frequency (min)</th>
+                                <th scope="col">Next Arrival</th>
+                                <th scope="col">Minutes Away</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody class="info">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        ​
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-header">
+                        Add Train
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Train Name</label>
+                            <input type="name" class="form-control" id="name" placeholder="Choo Choo">
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Destination</label>
+                            <input type="text" class="form-control" id="destination" placeholder="CEO">
+                        </div>
+                        <div class="form-group">
+                            <label for="start-date">First Train Time</label>
+                            <input type="text" class="form-control" id="train-time" placeholder="2:00">
+                        </div>
+                        <div class="form-group">
+                            <label for="rate">Frequency (min)</label>
+                            <input type="text" class="form-control" id="frequency" placeholder="100000">
+                        </div>
+        ​
+                        <button type="submit" class="btn btn-info" id="form-button">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+
+
+            <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-database.js"></script>
+    <script src="trainApp.js"></script>
+  
+</body>
+</html>
