@@ -12,19 +12,23 @@ firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
 
+
+
 $("#form-button").on("click", function (event) {
 
     console.log("clicked");
     event.preventDefault();
     console.log("clickedafter");
 
-    var name = $("#name").val().trim();
-    var destination = $("#destination").val().trim();
-    var firstTrain = $("#train-time").val().trim();
-    var frequency = $("#frequency").val().trim();
-    var nextArrival = "";
-    var minsAway = "";
 
+    var trainInfo = {
+        name: $("#name").val().trim(),
+        destination: $("#destination").val().trim(),
+        firstTrain: $("#train-time").val().trim(),
+        frequency: $("#frequency").val().trim(),
+
+
+    };
 
 
 
@@ -37,36 +41,68 @@ $("#form-button").on("click", function (event) {
 
     // database.ref().push(newTrain);
 
-    database.ref().set({
-        name: name,
-        destination: destination,
-        firstTrain: firstTrain,
-        frequency: frequency,
+    database.ref().push({
+        name: trainInfo.name,
+        destination: trainInfo.destination,
+        firstTrain: trainInfo.firstTrain,
+        frequency: trainInfo.frequency,
     });
 
-    $("#name").val("");
-    $("#destination").val("");
-    $("#train-time").val("");
-    $("#frequency").val("");
 
-})
+
+});
 
 database.ref().on("child_added", function (snapshot) {
-    console.log(snapshot.val());
 
-    
+    var name = snapshot.val().name;
+    var destination = snapshot.val().destination;
+    var firstTrain = snapshot.val().firstTrain;
+    var frequency = snapshot.val().frequency;
+    var nextArrival = "";
+    var minsAway = "";
+
+    var sv = snapshot.val();
+    console.log(snapshot.val());
     console.log(snapshot.val().name);
     console.log(snapshot.val().destination);
-
     console.log(snapshot.val().firstTrain);
     console.log(snapshot.val().frequency);
 
-var newRow = $("<tr>").append(
-$("<td>").text(name);
-$("<td>").text(destination);
-$("<td>").text(frequency);
-$("<td>").text(nextArrival);
-$("<td>").text(minsAway);
-);
+// First train next arrival= first train+ frequency what is the current time and find the frequency after 2pm.
+
+var firstTrainConverted = moment(sv.firstTrain, "HH:mm").subtract(1,"years");
+console.log(firstTrainConverted.toString());
+
+var currentTime = moment();
+console.log(moment());
+var diffTime = moment().diff(moment(firstTrainConverted),"minutes");
+console.log({frequency})
+var timeRemaining = diffTime % frequency;
+
+var minsTillTrain = frequency - timeRemaining;
+
+console.log(minsTillTrain);
+
+    var newRow = $("<tr>");
+    var tableDataName = $("<td>");
+    var tableDataDestination = $("<td>");
+    var tableDataFrequency = $("<td>");
+    var tableDataNextArrival = $("<td>");
+    var tableDataMinutesAway = $("<td>");
+
+    tableDataName.text(snapshot.val().name);
+    tableDataDestination.text(snapshot.val().destination);
+    tableDataFrequency.text(snapshot.val().frequency);
+    tableDataNextArrival.text(nextArrival);
+    tableDataMinutesAway.text(minsAway);
+
+
+
+    tableDataName.appendTo(newRow);
+    tableDataDestination.appendTo(newRow);
+    tableDataFrequency.appendTo(newRow);
+    tableDataNextArrival.appendTo(newRow);
+    tableDataMinutesAway.appendTo(newRow);
+    newRow.appendTo(".info");
 
 });
