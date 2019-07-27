@@ -57,9 +57,9 @@ database.ref().on("child_added", function (snapshot) {
     var name = snapshot.val().name;
     var destination = snapshot.val().destination;
     var firstTrain = snapshot.val().firstTrain;
-    var frequency = snapshot.val().frequency;
+    var frequency = parseInt(snapshot.val().frequency);
     var nextArrival = "";
-    var minsAway = "";
+    var minsAway;
 
     var sv = snapshot.val();
     console.log(snapshot.val());
@@ -68,20 +68,23 @@ database.ref().on("child_added", function (snapshot) {
     console.log(snapshot.val().firstTrain);
     console.log(snapshot.val().frequency);
 
-// First train next arrival= first train+ frequency what is the current time and find the frequency after 2pm.
+    // First train next arrival= first train+ frequency what is the current time and find the frequency after 2pm.
 
-var firstTrainConverted = moment(sv.firstTrain, "HH:mm").subtract(1,"years");
-console.log(firstTrainConverted.toString());
+    var firstTrainConverted = moment(sv.firstTrain, "HH:mm").subtract(1, "years");
+    console.log(firstTrainConverted.format());
 
-var currentTime = moment();
-console.log(moment());
-var diffTime = moment().diff(moment(firstTrainConverted),"minutes");
-console.log({frequency})
-var timeRemaining = diffTime % frequency;
+    var currentTime = moment();
+    console.log(moment());
+    var diffTime = moment().diff(moment(firstTrainConverted), "minutes");
+    var timeRemaining = diffTime % frequency;
+    console.log({ frequency, diffTime, timeRemaining })
+    minsAway = frequency - timeRemaining;
 
-var minsTillTrain = frequency - timeRemaining;
+    console.log({ minsAway });
 
-console.log(minsTillTrain);
+    nextArrival = moment().add(minsAway, "minutes");
+
+    console.log("arrival time: " + moment(nextArrival).format("hh:mm"));
 
     var newRow = $("<tr>");
     var tableDataName = $("<td>");
